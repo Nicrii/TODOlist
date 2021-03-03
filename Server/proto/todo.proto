@@ -1,0 +1,26 @@
+syntax ="proto3";
+   message TaskObj {
+    string id = 1;
+    string description = 2;
+    }
+
+    message CreateRequest {
+     string description = 1;
+    }
+
+    message RemoveRequest {
+     string id = 1;
+    }
+    message Response {
+     string message = 1;
+    }
+
+
+
+
+    service TodoService {
+     rpc CreateTask(CreateRequest) returns (Response);
+     rpc RemoveTask(RemoveRequest) returns (Response);
+     rpc UpdateTask(TaskObj) returns (Response);
+
+    }
