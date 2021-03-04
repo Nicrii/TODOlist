@@ -19,7 +19,7 @@ syntax ="proto3";
 
 
     service TodoService {
-     rpc CreateTask(CreateRequest) returns (Response);
+     rpc CreateTask(CreateRequest) returns (TaskObj);
      rpc RemoveTask(RemoveRequest) returns (Response);
      rpc UpdateTask(TaskObj) returns (Response);
 

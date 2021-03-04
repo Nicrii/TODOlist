@@ -1,10 +1,13 @@
-package Server
+package server
 
 import (
-	pb "./proto/"
+	pb "./proto"
 	"context"
+	"fmt"
 	"github.com/google/uuid"
+	"google.golang.org/grpc"
 	"log"
+	"net"
 )
 
 type server struct {
@@ -42,4 +45,22 @@ func (s *server) UpdateTask(ctx context.Context, taskToUpdate *pb.TaskObj) (*pb.
 		}
 	}
 	return &pb.Response{Message: message}, nil
+}
+
+func main() {
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 8080))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	s := server{}
+	grpcServer := grpc.NewServer()
+
+	pb.RegisterTodoServiceServer(grpcServer, &s)
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %s", err)
+	} else {
+		log.Printf("server started successfully")
+	}
 }
